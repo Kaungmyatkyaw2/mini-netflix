@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Movie } from "../typing";
 import { FaInfo, FaPlay } from "react-icons/fa";
-import { BsInfoCircleFill, BsPlay, BsPlayFill } from "react-icons/bs";
+import { BsInfoCircleFill, BsPlayFill } from "react-icons/bs";
 
 type BannerType = {
   netflixOriginals: Movie[];
@@ -16,10 +16,11 @@ const Banner = ({ netflixOriginals }: BannerType) => {
 
   useEffect(() => {
     setMovie(
-      netflixOriginals[Math.floor(Math.random() * netflixOriginals.length)]
+      netflixOriginals[Math.floor(Math.random() * netflixOriginals?.length)]
     );
   }, []);
 
+  console.log('hi')
   
 
   return (
