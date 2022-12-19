@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import CatRow from "../components/CatRow";
 import Header from "../components/Header";
@@ -17,29 +17,28 @@ type propType = {
   documentaries: Movie[];
 };
 
-const index = ({
-  netflixOriginals,
-  actionMovies,
-  comedyMovies,
-  documentaries,
-  horrorMovies,
-  romanceMovies,
-  topRated,
-  trendingNow,
-}: propType) => {
+const index = (props: propType) => {
+
+
+  const [isLoading, setIsLoading] = useState(false);
+ 
+ if (!props) {
+  return <h1>Loading</h1>
+ }
+
   return (
     <div className="relative bg-gradient-to-b from-gray-900/10 to-[#010511]">
       <Header />
       <main className=" lg:px-[70px] px-[20px]">
-        <Banner netflixOriginals={netflixOriginals} />
+        <Banner netflixOriginals={props.netflixOriginals} />
         <div>
-          <CatRow categoryTitle="Top Rated" movies={topRated} />
-          <CatRow categoryTitle="Trending Now" movies={trendingNow} />
-          <CatRow categoryTitle="Actions" movies={actionMovies} />
-          <CatRow categoryTitle="Comedy" movies={comedyMovies} />
-          <CatRow categoryTitle="Horror" movies={horrorMovies} />
-          <CatRow categoryTitle="Romance" movies={romanceMovies} />
-          <CatRow categoryTitle="Documentries" movies={documentaries} />
+          <CatRow categoryTitle="Top Rated" movies={props.topRated} />
+          <CatRow categoryTitle="Trending Now" movies={props.trendingNow} />
+          <CatRow categoryTitle="Actions" movies={props.actionMovies} />
+          <CatRow categoryTitle="Comedy" movies={props.comedyMovies} />
+          <CatRow categoryTitle="Horror" movies={props.horrorMovies} />
+          <CatRow categoryTitle="Romance" movies={props.romanceMovies} />
+          <CatRow categoryTitle="Documentries" movies={props.documentaries} />
         </div>
       </main>
     </div>

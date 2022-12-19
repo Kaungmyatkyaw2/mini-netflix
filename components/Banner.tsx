@@ -11,17 +11,13 @@ type BannerType = {
 const Banner = ({ netflixOriginals }: BannerType) => {
   const [movie, setMovie] = useState<Movie>({} as Movie);
 
-
- 
-
   useEffect(() => {
     setMovie(
-      netflixOriginals[0]
+      netflixOriginals[Math.floor(Math.random() * netflixOriginals?.length)]
     );
   }, []);
 
-  console.log('hi')
-  
+  console.log("hi");
 
   return (
     <div>
