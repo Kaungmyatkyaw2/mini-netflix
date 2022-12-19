@@ -15,9 +15,8 @@ const Banner = ({ netflixOriginals }: BannerType) => {
     setMovie(
       netflixOriginals[Math.floor(Math.random() * netflixOriginals?.length)]
     );
-  }, []);
+  }, [netflixOriginals]);
 
-  console.log("hi");
 
   return (
     <div>
