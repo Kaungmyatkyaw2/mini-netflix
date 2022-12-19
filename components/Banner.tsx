@@ -19,8 +19,9 @@ const Banner = ({ netflixOriginals }: BannerType) => {
     );
   }, [netflixOriginals]);
 
-  console.log(netflixOriginals?.length)
-
+  if(netflixOriginals?.length == undefined){
+    return <h1>Loading</h1>
+  }
 
   return (
     <div>
@@ -54,6 +55,9 @@ const Banner = ({ netflixOriginals }: BannerType) => {
       </div>
     </div>
   );
+
+
+  
 };
 
 export default Banner;
