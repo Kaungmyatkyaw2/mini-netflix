@@ -18,13 +18,9 @@ type propType = {
 };
 
 const index = (props: propType) => {
-
-
-  const [isLoading, setIsLoading] = useState(false);
- 
- if (!props) {
-  return <h1>Loading</h1>
- }
+  if (!props) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <div className="relative bg-gradient-to-b from-gray-900/10 to-[#010511]">

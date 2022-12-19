@@ -28,10 +28,10 @@ const Header = () => {
         <p className="text-sm sm:inline hidden cursor-pointer">Kid</p>
         <BsFillBellFill className="text-[18px] cursor-pointer" />
         <Link href="/profile">
-          <img
+          <Image
             src="https://robohash.org/facilisdignissimosdolore.png"
             className="rounded-full cursor-pointer h-[30px]"
-            alt=""
+            alt="image"
           />
         </Link>
       </div>
