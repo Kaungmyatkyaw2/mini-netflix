@@ -16,7 +16,7 @@ const Banner = ({ netflixOriginals }: BannerType) => {
 
   useEffect(() => {
     setMovie(
-      netflixOriginals[Math.floor(Math.random() * netflixOriginals?.length)]
+      netflixOriginals[0]
     );
   }, []);
 
