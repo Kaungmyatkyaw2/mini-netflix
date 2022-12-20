@@ -1,8 +1,14 @@
-import axios from "axios";
+import Modal from "../components/Modal";
+import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Banner from "../components/Banner";
 import CatRow from "../components/CatRow";
 import Header from "../components/Header";
+import { auth } from "../firebase";
+import { setUser } from "../store/AuthSlice";
+import { RootState } from "../store/store";
 import { Movie } from "../typing";
 import requests from "../utils/requests";
 
@@ -18,10 +24,25 @@ type propType = {
 };
 
 const index = (props: propType) => {
-  console.log('first')
-  if (!props) {
-    return <h1>Loading</h1>;
-  }
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const modal = useSelector((state: RootState) => state.modal.isModalShow);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (current) => {
+      if (current) {
+        router.push("/");
+        dispatch(setUser({ ...current }));
+      } else {
+        router.push("/login");
+      }
+    });
+
+    return () => {
+      unsub();
+    };
+  }, []);
 
   return (
     <div className="relative bg-gradient-to-b from-gray-900/10 to-[#010511]">
@@ -37,6 +58,7 @@ const index = (props: propType) => {
           <CatRow categoryTitle="Romance" movies={props.romanceMovies} />
           <CatRow categoryTitle="Documentries" movies={props.documentaries} />
         </div>
+        {modal && <Modal />}
       </main>
     </div>
   );

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Movie } from "../typing";
-import { FaInfo, FaPlay } from "react-icons/fa";
 import { BsInfoCircleFill, BsPlayFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { settingMovie, showModal } from "../store/ModalSlice";
 
 type BannerType = {
   netflixOriginals: Movie[];
@@ -10,6 +11,13 @@ type BannerType = {
 
 const Banner = ({ netflixOriginals }: BannerType) => {
   const [movie, setMovie] = useState<Movie>({} as Movie);
+  const dispatch = useDispatch()
+
+
+  const handleOpenModal = () => {
+    dispatch(showModal())
+    dispatch(settingMovie(movie))
+  }
 
   useEffect(() => {
     setMovie(
@@ -45,7 +53,7 @@ const Banner = ({ netflixOriginals }: BannerType) => {
             <BsPlayFill className="text-[18px]" />
             <span className="font-medium">Play</span>
           </button>
-          <button className="px-[20px] py-[7px] space-x-[5px] rounded text-[14px] bg-gray-500 bg-opacity-50 flex items-center">
+          <button onClick={handleOpenModal} className="px-[20px] py-[7px] space-x-[5px] rounded text-[14px] bg-gray-500 bg-opacity-50 flex items-center">
             <span className="font-medium">More Info</span>
             <BsInfoCircleFill className="text-[15px]" />
           </button>
