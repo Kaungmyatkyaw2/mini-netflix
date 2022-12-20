@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsFillBellFill, BsSearch } from "react-icons/bs";
+import image from '../public/netflix.svg'
 
 const Header = () => {
   return (
@@ -9,7 +10,7 @@ const Header = () => {
       <div className="flex space-x-[40px] items-center">
         <Image
           alt="logo"
-          src="https://rb.gy/ulxxee"
+          src={image}
           width={100}
           height={100}
           className="cursor-pointer object-contain"
@@ -32,6 +33,8 @@ const Header = () => {
             src="https://robohash.org/facilisdignissimosdolore.png"
             className="rounded-full cursor-pointer h-[30px]"
             alt="image"
+            width={30}
+            height={30}
           />
         </Link>
       </div>
