@@ -23,10 +23,9 @@ type propType = {
   documentaries: Movie[];
 };
 
-const index = (props: propType) => {
+const Index = (props: propType) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const modal = useSelector((state: RootState) => state.modal.isModalShow);
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const index = (props: propType) => {
   );
 };
 
-export default index;
+export default Index;
 
 export const getServerSideProps = async () => {
   const [

@@ -1,5 +1,6 @@
 import MuiModal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
+import {Genre} from '../typing'
 import {
   BsPlayFill,
   BsPlus,
@@ -18,7 +19,7 @@ const Modal = () => {
   const modal = useSelector((state: RootState) => state.modal.isModalShow);
   const movie = useSelector((state: RootState) => state.modal.movie);
   const [trailer, setTrailer] = useState<string>("" as string);
-  const [genres, setGeneres] = useState<[]>("" as []);
+  const [genres, setGeneres] = useState<Genre[]>([]);
   const [mute, setMute] = useState<boolean>(false);
   const dispatch = useDispatch();
   const handleClose = () => {
