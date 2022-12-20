@@ -18,6 +18,7 @@ type propType = {
 };
 
 const index = (props: propType) => {
+  console.log('first')
   if (!props) {
     return <h1>Loading</h1>;
   }
