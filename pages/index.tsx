@@ -26,7 +26,7 @@ const index = (props: propType) => {
     <div className="relative bg-gradient-to-b from-gray-900/10 to-[#010511]">
       <Header />
       <main className=" lg:px-[70px] px-[20px]">
-        {/* <Banner netflixOriginals={props.netflixOriginals} /> */}
+        <Banner netflixOriginals={props.netflixOriginals} />
         <div>
           <CatRow categoryTitle="Top Rated" movies={props.topRated} />
           <CatRow categoryTitle="Trending Now" movies={props.trendingNow} />
