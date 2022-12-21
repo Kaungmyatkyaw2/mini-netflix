@@ -4,6 +4,8 @@ import {RootState } from "./../store/store";
 import { BsFillBellFill, BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import image from '../public/netflix.svg'
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 
 
@@ -11,9 +13,8 @@ import image from '../public/netflix.svg'
 const Header = () => {
 
 
-  const me = useSelector((state: RootState) => state.user)
+  const me = useSelector((state: RootState) => state.user);
 
-  console.log(me)
   return (
     <header className={`bg-blur duration-300 shadow`}>
       <div className="flex space-x-[40px] items-center">
@@ -35,17 +36,17 @@ const Header = () => {
 
       <div className="flex items-center space-x-[25px] text-sm font-medium">
         <BsSearch className="text-[16px] cursor-pointer" />
-        <p className="text-sm sm:inline hidden cursor-pointer">Kid</p>
         <BsFillBellFill className="text-[18px] cursor-pointer" />
         <Link href="/profile">
           <Image
-            src="https://robohash.org/facilisdignissimosdolore.png"
+            src={`${me?.user?.photoURL || "https://robohash.org/facilisdignissimosdolore.png"}`}
             className="rounded-full cursor-pointer h-[30px]"
             alt="image"
             width={30}
             height={30}
           />
         </Link>
+        <p className="text-sm cursor-pointer" onClick={() => signOut(auth)}>LogOut</p>
       </div>
     </header>
   );

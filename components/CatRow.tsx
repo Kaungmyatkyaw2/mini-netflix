@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import { useRef, useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { Movie } from "../typing";
@@ -5,7 +6,7 @@ import MovieCard from "./MovieCard";
 
 type CatPropType = {
   categoryTitle: string;
-  movies: Movie[];
+  movies: Movie[] | DocumentData;
 };
 
 const CatRow = ({ categoryTitle, movies }: CatPropType) => {
@@ -45,8 +46,8 @@ const CatRow = ({ categoryTitle, movies }: CatPropType) => {
           ref={rowRef}
           className="carousel flex items-start overflow-x-scroll space-x-[20px] scrollbar-none relative"
         >
-          {movies?.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+          {movies?.map((movie : Movie,index:number) => (
+            <MovieCard key={index} movie={movie} />
           ))}
         </div>
       </div>

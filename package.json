@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@firebase/auth-types": "^0.12.0",
     "@heroicons/react": "^2.0.13",
     "@mui/material": "^5.11.1",
     "@reduxjs/toolkit": "^1.9.1",
@@ -28,6 +29,7 @@
     "react-icons": "^4.7.1",
     "react-player": "^2.11.0",
     "react-redux": "^8.0.5",
+    "react-toastify": "^9.1.1",
     "recoil": "^0.7.6",
     "tailwind-scrollbar": "^2.0.1",
     "typescript": "4.9.4"

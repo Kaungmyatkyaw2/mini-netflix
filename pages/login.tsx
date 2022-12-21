@@ -17,7 +17,6 @@ const Login = () => {
     } catch {
       console.log("error");
     }
-    console.log("hi");
   };
 
 

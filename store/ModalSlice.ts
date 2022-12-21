@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Movie } from "../typing";
-import { DocumentData } from 'firebase/firestore'
 
 type initialType = {
     isModalShow : boolean,
-    movie : Movie | DocumentData | null
+    movie : Movie | null
 }
 const initialState:initialType = {
     isModalShow : false,

@@ -1,6 +1,6 @@
 import MuiModal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
-import {Genre} from '../typing'
+import { Genre } from "../typing";
 import {
   BsPlayFill,
   BsPlus,
@@ -14,16 +14,63 @@ import { Element } from "../typing";
 import { RootState } from "../store/store";
 import ReactPlayer from "react-player";
 import { AiOutlineLike } from "react-icons/ai";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { toast } from "react-toastify";
 
 const Modal = () => {
   const modal = useSelector((state: RootState) => state.modal.isModalShow);
   const movie = useSelector((state: RootState) => state.modal.movie);
+  const myMovie = useSelector((state: RootState) => state.user.myMovie);
+  const user = useSelector((state: RootState) => state.user);
   const [trailer, setTrailer] = useState<string>("" as string);
   const [genres, setGeneres] = useState<Genre[]>([]);
   const [mute, setMute] = useState<boolean>(false);
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(closeModal());
+  };
+  const toastStyle = {
+    background: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "16px",
+    padding: "15px",
+    borderRadius: "9999px",
+    width: "350px",
+  };
+
+  const handleAddList = async () => {
+    if (myMovie.findIndex((i) => i.id == movie?.id) == -1) {
+      await setDoc(
+        doc(db, "customers", user.user!.uid, "myList", movie?.id.toString()!),
+        {
+          ...movie,
+        }
+      ).then((_) =>
+        toast.success(
+          `${
+            movie?.name || movie?.original_name || movie?.title
+          } has been add to your list`,
+          {
+            style: toastStyle,
+          }
+        )
+      );
+    } else {
+      await deleteDoc(
+        doc(db, "customers", user.user!.uid, "myList", movie?.id.toString()!)
+      ).then((_) =>
+        toast.success(
+          `${
+            movie?.name || movie?.original_name || movie?.title
+          } has been add to your list`,
+          {
+            style: toastStyle,
+          }
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -77,7 +124,14 @@ const Modal = () => {
                 <BsPlayFill className="text-[20px]" />
                 <span>Play</span>
               </button>
-              <button className="text-[20px] w-[27px] h-[27px] flex justify-center items-center rounded-full bg-gray-500 bg-opacity-25 border">
+              <button
+                onClick={handleAddList}
+                className={`${
+                  myMovie.findIndex((i) => i.id == movie?.id) == -1
+                    ? "rotate-0"
+                    : "rotate-45"
+                } text-[20px] w-[27px] h-[27px] flex justify-center items-center rounded-full bg-gray-500 bg-opacity-25 border`}
+              >
                 <BsPlus />
               </button>
               <button className="text-[16px] w-[27px] h-[27px] flex justify-center items-center rounded-full bg-gray-500 bg-opacity-25 border">
@@ -105,8 +159,10 @@ const Modal = () => {
               HD
             </p>
           </div>
-          <div className="flex lg:flex-row flex-col lg:items-center justify-between lg:space-x-[30px] lg:space-y-0 space-y-[10px]">
-            <p className="md:w-[60%] w-[95%] text-[13px] text-justify">{movie?.overview}</p>
+          <div className="flex lg:flex-row flex-col lg:items-center lg:space-x-[30px] lg:space-y-0 space-y-[10px]">
+            <p className="md:w-[70%] w-[95%] text-[13px] text-justify">
+              {movie?.overview}
+            </p>
             <div className="lg:space-y-0 space-y-[10px]">
               <div className=" font-outfit">
                 <span className="text-[gray]">Genres:</span>{" "}
@@ -119,13 +175,11 @@ const Modal = () => {
                 {movie?.original_language}
               </div>
               <div className=" font-outfit">
-            <span className="text-[gray] text-[14px]">Total votes:</span>{" "}
-            {movie?.vote_count}
-          </div>
+                <span className="text-[gray] text-[14px]">Total votes:</span>{" "}
+                {movie?.vote_count}
+              </div>
             </div>
           </div>
-
-          
         </div>
       </>
     </MuiModal>

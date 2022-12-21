@@ -6,11 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Banner from "../components/Banner";
 import CatRow from "../components/CatRow";
 import Header from "../components/Header";
-import { auth } from "../firebase";
-import { setUser } from "../store/AuthSlice";
+import { auth, db } from "../firebase";
+import { settingMyMovie, setUser } from "../store/AuthSlice";
 import { RootState } from "../store/store";
 import { Movie } from "../typing";
 import requests from "../utils/requests";
+import { collection, onSnapshot } from "firebase/firestore";
+import Loader from "../components/Loader";
+import Footer from "../components/Footer";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 type propType = {
   netflixOriginals: Movie[];
@@ -27,14 +32,48 @@ const Index = (props: propType) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const modal = useSelector((state: RootState) => state.modal.isModalShow);
+  const myMovie = useSelector((state: RootState) => state.user.myMovie);
+  const [isLoad, setisLoad] = useState<boolean>(true);
+  const [id, setId] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (id === undefined)
+      return () => {
+        null;
+      };
+    else {
+      const getMovie = onSnapshot(
+        collection(db, "customers", id, "myList"),
+        (snapshot) => {
+          dispatch(
+            settingMyMovie(
+              snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }))
+            )
+          );
+          setisLoad(false);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      return () => {
+        getMovie();
+      };
+    }
+  }, [db, id]);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (current) => {
       if (current) {
         router.push("/");
         dispatch(setUser({ ...current }));
+        setId(current.uid);
       } else {
         router.push("/login");
+        setisLoad(false);
       }
     });
 
@@ -43,8 +82,13 @@ const Index = (props: propType) => {
     };
   }, []);
 
+  if (isLoad) {
+    return <Loader/>;
+  }
+
   return (
     <div className="relative bg-gradient-to-b from-gray-900/10 to-[#010511]">
+      <ToastContainer position="bottom-center" />
       <Header />
       <main className=" lg:px-[70px] px-[20px]">
         <Banner netflixOriginals={props.netflixOriginals} />
@@ -56,9 +100,11 @@ const Index = (props: propType) => {
           <CatRow categoryTitle="Horror" movies={props.horrorMovies} />
           <CatRow categoryTitle="Romance" movies={props.romanceMovies} />
           <CatRow categoryTitle="Documentries" movies={props.documentaries} />
+          <CatRow categoryTitle="My List" movies={myMovie} />
         </div>
         {modal && <Modal />}
       </main>
+      <Footer/>
     </div>
   );
 };

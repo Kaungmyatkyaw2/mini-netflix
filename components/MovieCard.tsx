@@ -1,15 +1,23 @@
+import { DocumentData } from "firebase/firestore";
 import Image from "next/image";
 import React from "react";
 import { BsPlayFill, BsStarFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { settingMovie, showModal } from "../store/ModalSlice";
 import { Movie } from "../typing";
 
 type CardProp = {
-  movie: Movie;
+  movie: Movie | DocumentData;
 };
 
 const MovieCard = ({ movie }: CardProp) => {
+  const dispatch = useDispatch()
+  const handleOpenModal = () => {
+    dispatch(showModal())
+    dispatch(settingMovie(movie))
+  }
   return (
-    <div className="min-w-[300px] min-h-[500px] bg-black rounded-md cursor-pointer relative group overflow-hidden z-[998]">
+    <div className="min-w-[300px] min-h-[500px] bg-black rounded-md relative group overflow-hidden z-[998]">
       <div className="w-full h-[400px] overflow-hidden">
         <Image
           src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
@@ -27,7 +35,7 @@ const MovieCard = ({ movie }: CardProp) => {
             <BsStarFill className="text-yellow-500" />
             <span>{movie.vote_average.toFixed(1)}</span>
           </p>
-          <div className="w-[30px] h-[30px] rounded-full flex items-center justify-center bg-white text-black">
+          <div onClick={handleOpenModal} className="w-[30px] h-[30px] rounded-full flex items-center justify-center bg-white text-black">
             <BsPlayFill className="text-[18px]" />
           </div>
         </div>

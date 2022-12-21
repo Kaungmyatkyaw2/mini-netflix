@@ -9,8 +9,9 @@ export type Genre = {
     media_type?: string
     release_date?: string
     first_air_date: string
+    userId?:string
     genre_ids: number[]
-    id: number
+    id: number | string
     name: string
     origin_country: string[]
     original_language: string
