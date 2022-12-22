@@ -10,13 +10,8 @@ import { useRouter } from "next/router";
 const Login = () => {
   const router = useRouter();
   const signIn = async () => {
-    try {
       const provider = new GoogleAuthProvider();
-      signInWithPopup(auth, provider);
-      router.push("/");
-    } catch {
-      console.log("error");
-    }
+      await signInWithPopup(auth, provider).then(_ => router.push("/")).catch(_ => router.push('/login'));
   };
 
 
